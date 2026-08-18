@@ -1,0 +1,24 @@
+# Project Parallax — Dependencies
+# Python 3.10+
+
+# Data acquisition
+yfinance>=0.2.40
+
+# Core data and numerics
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Statistical modeling
+statsmodels>=0.14.0
+
+# Visualization
+matplotlib>=3.7.0
+plotly>=5.15.0
+
+# Notebooks
+jupyter>=1.0.0
+notebook>=7.0.0
+
+# Utilities
+requests>=2.31.0
