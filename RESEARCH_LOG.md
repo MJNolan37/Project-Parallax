@@ -72,4 +72,47 @@ This entry exists to create a public record that hypotheses were registered, com
 
 ---
 
+## 2026-08-19 — Phase 0 Complete / Phase 1 Active (WP-05)
+
+**Status at entry:** Phase 0 literature reconnaissance complete. Phase 1 historical replication underway (WP-05 activated). No hypothesis testing has occurred.
+
+### Phase 0 Findings Registered
+
+**Literature reconnaissance completed.** Primary and secondary benchmarks identified and reviewed. Key finding from the literature: the secular rise in idiosyncratic volatility documented by CLMX (2001) over 1962–1997 did not persist cleanly after approximately 2001. H1 remains genuinely open as a question under investigation — it is not an assumed finding.
+
+**CLMX variance estimator confirmed.** Source: Campbell, Lettau, Malkiel & Xu (2022), NBER WP 29916, Figure notes 1–4. Monthly variance = sum of raw squared daily return components within each month. Returns are NOT demeaned before squaring. Monthly totals are NOT divided by trading-day count. This estimator is confirmed by the original authors' own restatement.
+
+**FF49 industry classification confirmed.** Fama-French 49 industries (not 48). Confirmed from CLMX (2001) paper text. Classification via SIC code crosswalk from the Kenneth French Data Library (Siccodes49.zip). SIC codes sourced from SEC EDGAR public API. Software/hardware split in FF49 is relevant for modern S&P 500 composition.
+
+**Post-2001 directional benchmark registered.** Campbell, Lettau, Malkiel & Xu (2022), NBER WP 29916, "Idiosyncratic Equity Risk Two Decades Later." Figures 2, 3, and 4 are the primary directional comparison targets for Project Parallax's 2010–2024 replication. Finding: no persistent secular increase in FIRM variance share post-2001; market and industry components elevated post-crisis.
+
+**Secondary robustness benchmark registered.** Chiah, Gharghori & Zhong (2020), *Critical Finance Review*, "Has Idiosyncratic Volatility Increased? Not in Recent Times." Independent (non-CLMX-author) replication through 2016–2017. Confirms no persistent post-2001 increase. Useful as adversarial check on CLMX (2022) because it is methodologically independent.
+
+### Design Decisions Registered
+
+**D-017 — Minimum observation threshold: ACCEPTED**
+Minimum 10 valid daily return observations per security per month. Stocks with fewer than 10 valid days are excluded from that month's decomposition. This is a Parallax design choice; it is NOT stated in the original CLMX (2001) methodology. Documented as a deviation in notebook Step 11.
+
+**D-018 — Missing data treatment: OPEN**
+Two options are under evaluation:
+- Option A (valid-day inclusion): include stocks with ≥ 10 valid days; stock may be missing on some days within the month.
+- Option B (complete-month completeness): include only stocks valid on every trading day.
+The structural difference is that Option A allows day-by-day portfolio composition changes within a month; Option B fixes the portfolio for the month. Decision requires reviewing the FIRM variance overlay chart from notebook Step 8 before proceeding. Will be registered before Phase 2.
+
+**D-019 — Weighting convention: ACCEPTED**
+Value-weighted (VW) primary. Equal-weighted (EW) deferred until VW series is validated. Consistent with CLMX (2022) which reports both; VW is the base case.
+
+**D-020 — Study window: ACCEPTED (provisional)**
+Primary window: 2010–2024. May extend to 2005–2024 pending Phase 1 coverage diagnostics (notebook Step 2). Extension decision based on ticker coverage rate and survivorship-bias severity in the 2005–2009 period, not on which horizon produces more favorable results.
+
+### Work Product
+
+`notebooks/02_historical_replication.ipynb` — Restructured to v0.1.3 canonical 12-step learning-first architecture. All function definitions consolidated in Step 12. Steps 1–11 show computations inline. D-018 comparison implemented in Step 8 with explicit parameter flag. Raw data inspection promoted to Step 2. Weight construction promoted to standalone Step 4. Limitations structured by priority in Step 11.
+
+### Note on AI Assistance
+
+Literature reconnaissance for Phase 0 was supported by AI-assisted search. All methodology confirmations trace to primary sources: CLMX (2001) original paper, CLMX (2022) NBER WP 29916 (Figure notes for estimator confirmation), and the Kenneth French Data Library (FF49 crosswalk). AI output is not treated as empirical evidence; decisions registered here are grounded in those primary sources.
+
+---
+
 *Results will be appended as phases complete.*

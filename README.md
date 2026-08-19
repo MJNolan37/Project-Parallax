@@ -127,8 +127,8 @@ If the free dataset materially distorts inference, the project will document the
 
 | Phase | Question | Output | Status |
 |---|---|---|---|
-| 0 | What is already known? | Literature review | 🔄 In progress |
-| 1 | Can the data answer the question? | Bias & feasibility report | 🔄 In progress |
+| 0 | What is already known? | Literature review | ✅ Complete |
+| 1 | Can the data answer the question? | Bias & feasibility report | 🔄 In progress (WP-05: historical replication) |
 | 2 | Does the phenomenon exist? | Dispersion / correlation analysis | ⏳ Pending gates |
 | 3 | Does the attribution engine behave correctly? | Brinson engine + known-answer tests | ⏳ Pending gates |
 | 4 | What do systematic factors explain? | Factor attribution engine | ⏳ Pending gates |

@@ -58,6 +58,32 @@ Return frequency (daily data/monthly aggregation) confirmed for replication stag
 
 ---
 
+## [0.1.3] — 2026-08-19
+
+### Changed
+
+- `notebooks/02_historical_replication.ipynb` — Restructured from exploratory v0.1.2 draft (9 sections) to canonical learning-first v0.1.3 architecture (12 steps). Key changes: all function definitions consolidated in Step 12; Steps 5/6/7 now show MKT, IND, and FIRM components in separate manual steps before the full loop; weight construction promoted to standalone Step 4 with diagnostics; raw data inspection added as Step 2 (missingness heatmap, anomaly screening, D-020 coverage diagnostic); D-018 comparison implemented in Step 8 with explicit `missing_treatment` parameter flag; reconciliation/sanity checks promoted to Step 9 with per-month n_stocks chart and non-negativity assertion; limitations restructured by priority (HIGH/MEDIUM/LOWER) in Step 11.
+- `RESEARCH_LOG.md` — Phase 0 completion entry added. Registered: CLMX estimator confirmation, FF49 industry classification decision, CLMX (2022) primary benchmark, Chiah (2020) secondary benchmark, D-017 accepted, D-018 open, D-019 accepted, D-020 accepted, WP-05 activation.
+- `docs/methodology.md` — Added "CLMX Variance Decomposition" section with confirmed estimator formula, VW convention, FF49/SIC pipeline with snapshot-date requirement, survivorship filter as explicit architectural node, D-017/D-018 observation rules, and explicit distinction between CLMX FIRM variance and FF6-residual variance (Phase 5).
+- `README.md` — Phase 0 status updated to complete; Phase 1/WP-05 noted as active.
+- `src/attribution/factors.py` — `FactorAttributionResult` docstring updated to note that `residual_variance` means "unexplained by FF6 specification" — distinct from CLMX FIRM variance, which removes only market and industry components.
+
+### Methodology Registrations
+
+- **CLMX estimator confirmed:** Monthly variance = sum of raw squared daily return components (not demeaned, not normalized by trading-day count). Source: CLMX (2022) NBER WP 29916.
+- **FF49 confirmed:** 49 industries (not 48); SIC crosswalk from Kenneth French Data Library.
+- **D-017 accepted:** 10-day minimum observation threshold per stock per month.
+- **D-018 open:** Complete-month (Option B) vs. valid-day (Option A) — pending overlay chart review.
+- **D-019 accepted:** VW primary; EW deferred to post-validation.
+- **D-020 accepted (provisional):** 2010–2024 primary; 2005–2024 conditional on Phase 1 diagnostics.
+- **WP-05 activated:** Historical replication workstream, Phase 1.
+
+### Research State
+
+Phase 0 literature reconnaissance complete. H1 remains genuinely open — the pre-2001 secular trend (CLMX 2001) did not persist cleanly after approximately 2001 (CLMX 2022, Chiah 2020). Results of the 2010–2024 replication are not yet known. No hypothesis testing has occurred.
+
+---
+
 ## [0.1.1] — 2026-08-19
 
 ### Changed

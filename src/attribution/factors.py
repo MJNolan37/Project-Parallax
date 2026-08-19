@@ -96,7 +96,10 @@ class FactorAttributionResult:
     r_squared : float
         Coefficient of determination for the factor regression.
     residual_variance : float
-        Variance of residual returns.
+        Variance of residual returns. Means "unexplained by the FF6 specification" —
+        distinct from CLMX FIRM variance, which removes only market and industry
+        components (no factor control). See docs/methodology.md for the full
+        distinction between these two measures.
     total_variance : float
         Total return variance.
     specific_variance_share : float
