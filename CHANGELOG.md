@@ -33,6 +33,31 @@ A change is "material" if it affects hypotheses, operationalizations, universe, 
 
 ---
 
+## [0.1.2] — 2026-08-19
+
+### Added
+
+- `notebooks/02_historical_replication.ipynb` — CLMX variance decomposition replication notebook (Phase 0/1 bridge). Implements the three-component MKT/IND/FIRM variance decomposition from Campbell, Lettau, Malkiel & Xu (2001) using the methodology confirmed by the authors' 2022 NBER restatement. Sections: mathematical framework, synthetic worked example, FF49 industry classification pipeline (EDGAR SIC codes + French crosswalk), full-period decomposition, visualization, directional comparison to CLMX (2022), and documented deviations.
+
+### Changed
+
+- `docs/bibliography.md` — Formalized from skeleton to annotated bibliography. Added entries for CLMX (2001), CLMX NBER WP 29916 (2022), Brandt/Brav/Graham/Kumar (2010), and Chiah/Gharghori/Zhong (2020) with status annotations. CLMX (2022) registered as primary post-2001 directional benchmark; Chiah et al. (2020) registered as secondary robustness comparator.
+
+### Methodology Registrations
+
+- **CLMX variance estimator confirmed:** Monthly variance = sum of raw squared daily return components (not demeaned, not normalized by trading-day count). Source: CLMX authors' own 2022 NBER restatement, Figure notes 1–4.
+- **Post-2001 benchmark registered:** Campbell, Lettau, Malkiel & Xu (2022), NBER WP 29916, "Idiosyncratic Equity Risk Two Decades Later." Figures 2–4 are the directional comparison targets.
+- **Secondary benchmark registered:** Chiah, Gharghori & Zhong (2020), *Critical Finance Review* — independent replication through 2016–2017.
+- **Industry classification confirmed:** Fama-French 49 industries (not 48), as stated in CLMX (2001). Software/hardware split matters for modern S&P 500 composition.
+- **Missing data convention:** Drop, not impute — consistent with EDGAR replication code.
+- **Minimum observation threshold:** 10 trading days per month — documented as Project Parallax design choice, not a CLMX requirement.
+
+### Open Decisions Unchanged
+
+Return frequency (daily data/monthly aggregation) confirmed for replication stage. Primary VW weighting confirmed. Survivorship bias assessment and universe decision remain pending Phase 1 gate.
+
+---
+
 ## [0.1.1] — 2026-08-19
 
 ### Changed
