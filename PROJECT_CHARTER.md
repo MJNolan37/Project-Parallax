@@ -52,6 +52,8 @@ Within at least some U.S. equity sectors or industries, the share of security-le
 
 **Primary operationalization:** Residual or specific variance as a proportion of total security-level variance after controlling for specified systematic exposures. This measure is chosen because it comes closest to the underlying question: is the individual company contributing more independently to its own return behavior?
 
+**Literature context:** Prior work (Campbell, Lettau, Malkiel, and Xu 2001) documents a rise in idiosyncratic volatility over 1962–1997. More recent evidence suggests this trend did not persist cleanly after approximately 2001. H1 is therefore stated as a question under investigation, not as a finding to be confirmed. Period-specific and regime-dependent behavior — captured under Explanation C — is a live candidate. The project makes no assumption about the direction or persistence of the result.
+
 ### H1a — Structural Expression
 
 Within-sector or within-industry dispersion has increased over time and/or average within-group correlation has declined. Possible evidence includes higher cross-sectional dispersion, lower average within-sector or within-industry correlations, wider distributions of pairwise correlations, or greater frequency of extreme security-relative moves.
@@ -174,12 +176,14 @@ Benchmark sector weights preserved. Security weights altered within sectors. Exp
 **Portfolio B — Allocation Only**
 Sector weights altered. Within-sector security weights kept benchmark-like. Expected result: primarily allocation attribution with minimal selection effect.
 
-**Portfolio C — Combined Active**
+**Portfolio C — Combined Effects**
 Both sector weights and within-sector security weights altered. Expected result: allocation, selection, and interaction effects are all present.
 
 These known-answer cases are encoded in `tests/test_brinson.py`.
 
 > If the attribution engine cannot correctly explain a portfolio we deliberately constructed, it should not be trusted to explain a portfolio we did not.
+
+*These synthetic portfolios exist solely to validate attribution methodology and are not investable portfolios or investment recommendations.*
 
 ---
 

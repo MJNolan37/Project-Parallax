@@ -27,6 +27,19 @@ exposures — is the primary measure of H1 (see PROJECT_CHARTER.md Section 4).
 The FF6 baseline will not be upgraded opportunistically. Additional factors
 require a documented research reason.
 
+Residual Return — Model Dependence
+-----------------------------------
+Residual or specific return in this project means: unexplained by the
+specified factor model. It does not mean inherently or purely firm-specific
+in an economic sense. Omitted factors can inflate measured residual variance.
+Code and documentation in this project use `residual_variance` and
+`specific_variance_share` — not "true idiosyncratic risk" or similar language
+that implies the model fully partitions systematic from firm-specific sources.
+The H1 test therefore measures whether residual variance as a proportion of
+total variance has changed under a specified model — not whether some economic
+quantity of "pure idiosyncrasy" has changed. Sensitivity testing across
+alternative model specifications is planned for Phase 5.
+
 Relationship to Brinson Attribution
 ------------------------------------
 Factor attribution and Brinson attribution answer different questions.

@@ -38,6 +38,16 @@ See `tests/test_brinson.py` for known-answer test cases.
 
 **Key conceptual distinction:** Brinson selection is a portfolio attribution construct. It does not imply that the attributed return was idiosyncratic. A security that outperformed its sector benchmark may have done so because of systematic factor exposures, not firm-specific behavior.
 
+**Primary comparative question:** What changes when the same portfolio return is viewed through Brinson attribution versus factor attribution? The differences between the two frameworks may reveal structural information that neither framework exposes on its own. This comparative question is a primary research output of Phases 3–5.
+
+---
+
+## Residual Return — Model Dependence
+
+**Design requirement:** Residual or specific return means unexplained by the specified factor model — not inherently or purely firm-specific in an economic sense. Omitted factors inflate measured residual variance. The H1 test therefore measures whether residual variance as a share of total variance has changed under a specified model, not whether some quantity of "pure idiosyncrasy" has changed.
+
+Sensitivity testing across at least two model specifications is planned for Phase 5 to assess how model choice affects residual estimates.
+
 ---
 
 ## Dispersion Normalization

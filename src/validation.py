@@ -127,7 +127,7 @@ def flag_survivorship_risk(
     -------
     dict
         Survivorship bias diagnostic including estimated exposure and
-        recommended handling.
+        suggested data handling guidance.
 
     Notes
     -----

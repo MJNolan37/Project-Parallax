@@ -30,3 +30,19 @@ A change is "material" if it affects hypotheses, operationalizations, universe, 
 - **Prototype universe registered:** S&P 500 (provisional)
 - **Brinson validation approach registered:** controlled synthetic portfolios with known expected attribution
 - **Open decisions registered:** return frequency, historical horizon, final universe (all pending Phase 1)
+
+---
+
+## [0.1.1] — 2026-08-19
+
+### Changed
+
+- `PROJECT_CHARTER.md` Section 9: renamed "Portfolio C — Combined Active" to "Portfolio C — Combined Effects" to remove unintended active-portfolio connotation
+- `PROJECT_CHARTER.md` Section 4 (H1): added literature context note acknowledging that the Campbell-Lettau-Malkiel-Xu secular trend did not persist cleanly post-2001; clarified that H1 is a directional hypothesis under investigation, not an assumed finding
+- `src/attribution/factors.py`: added explicit model-dependence caveat clarifying that residual/specific return means "unexplained by this specification," not "inherently firm-specific"
+- `src/validation.py`: softened "recommended handling" to "suggested data handling guidance"
+- `docs/methodology.md`: added "Residual Return — Model Dependence" section; added "Primary comparative question" to Brinson section foregrounding the Brinson/factor comparative research output
+
+### Rationale
+
+Language audit and literature-informed refinement following Phase 0 preliminary findings. No hypothesis changes. No operationalization changes.
