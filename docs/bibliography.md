@@ -84,4 +84,4 @@ Literature targets:
 
 *Bibliography grows through Phase 0. All entries are independently assessed; no source is treated as authoritative without review.*
 
-*Phase 0 literature reconnaissance supported by P-Zephy (Literature Research). Methodological details confirmed August 2026.*
+*Phase 0 literature reconnaissance supported by AI-assisted search, August 2026. Primary sources independently verified.*

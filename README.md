@@ -8,6 +8,16 @@
 
 ---
 
+## Current State
+
+Phase 0 literature reconnaissance is complete. The literature establishes that the secular rise in idiosyncratic volatility documented by Campbell, Lettau, Malkiel & Xu (2001) over 1962–1997 did not persist cleanly after approximately 2001 (CLMX 2022; Chiah, Gharghori & Zhong 2020). H1 therefore remains a genuinely open question — it is not an assumed finding.
+
+Phase 1 data feasibility is active. The CLMX three-component variance decomposition engine (MKT/IND/FIRM) has been implemented in `notebooks/02_historical_replication.ipynb` and validated on synthetic data with known analytical solutions (24/24 PASS, WP-05 synthetic validation). No hypothesis testing has occurred. The next step is live historical execution of the decomposition notebook across the 2010–2024 study window, which requires local network access for data retrieval from Yahoo Finance, SEC EDGAR, and the Kenneth French Data Library. See [`docs/live_data_execution_handoff.md`](docs/live_data_execution_handoff.md) for setup and execution instructions.
+
+No empirical results exist yet. The research question remains open in both directions.
+
+---
+
 ## Why Parallax?
 
 Parallax is the apparent shift of an object when viewed from different positions. The shift is not noise — it is information about the object's structure.
@@ -84,11 +94,11 @@ Each layer answers a different question and requires different methods.
 ```mermaid
 flowchart TD
     A[Observed Equity Differentiation]
-    A --> B[Layer 1 — Dispersion & Correlation\nAre securities becoming more differentiated?]
-    B --> C[Layer 2 — Portfolio Expression\nBrinson Attribution]
+    A --> B[Layers 1–2 — Dispersion & Correlation\nAre securities becoming more differentiated?]
+    B --> C[Layer 3 — Brinson Attribution\nWhere does active return appear?]
     C --> D{What explains selection?}
-    D --> E[Layer 3 — Systematic Factors\nFF6 Attribution]
-    D --> F[Layer 4 — Residual / Specific Return\nWhat remains after controls?]
+    D --> E[Layer 4 — FF6 Factor Attribution\nCan systematic exposures explain it?]
+    D --> F[Layer 5 — Residual / Specific Return\nWhat remains after controls?]
     E --> G[Market Structure Assessment]
     F --> G
 ```
@@ -166,4 +176,4 @@ AI can accelerate the construction of research tools. It does not get to decide 
 
 ---
 
-[Project Charter](PROJECT_CHARTER.md) · [Research Log](RESEARCH_LOG.md) · [Bibliography](docs/bibliography.md) · [Methodology](docs/methodology.md)
+[Project Charter](PROJECT_CHARTER.md) · [Research Log](RESEARCH_LOG.md) · [Bibliography](docs/bibliography.md) · [Methodology](docs/methodology.md) · [Live Data Execution](docs/live_data_execution_handoff.md)

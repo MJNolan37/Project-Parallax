@@ -221,6 +221,8 @@ The primary return frequency (daily, weekly, or monthly) has not been selected. 
 **Historical Horizon**
 The primary research start date has not been selected. It will be determined by data quality, constituent-data availability, survivorship-bias severity, and the need to capture multiple market regimes — not by which horizon produces more favorable results.
 
+> **Addendum — 2026-08-19 (D-020):** A provisional study window of 2010–2024 has been accepted for Phase 1 implementation. This decision is provisional: it reflects data-quality and regime-coverage judgments made at Phase 1 initiation and may be extended to 2005–2024 if Phase 1 coverage diagnostics (notebook Step 2) confirm acceptable survivorship-bias levels for the pre-2010 period. The extension decision will be based on diagnostic evidence, not on which horizon produces more favorable results. This addendum records D-020 as registered; the original preregistration language above is preserved unchanged.
+
 **Universe**
 S&P 500 is the provisional prototype universe. Whether it is adequate for defensible inference depends on Phase 1 survivorship and constituent-coverage validation. A broader universe may be evaluated if data quality and research value justify expansion.
 

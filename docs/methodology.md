@@ -86,7 +86,7 @@ $$\text{MKT}_t = \sum_d \mu_{t,d}^2 \qquad \text{IND}_t = \sum_j W_j \sum_d \eta
 
 **Observation rules (registered design choices, not CLMX requirements):**
 - D-017: Minimum 10 valid daily return observations per stock per month
-- D-018: OPEN — comparison between complete-month completeness (Option B, preferred) and valid-day inclusion (Option A). Decision pending review of FIRM variance overlay chart in `notebooks/02_historical_replication.ipynb`, Step 8.
+- D-018: OPEN — comparison between complete-month completeness (Option B) and valid-day inclusion (Option A). Adjudication requires evaluation across four dimensions jointly: (1) methodological defensibility of the estimator construction under each option, (2) empirical sensitivity across MKT, IND, and FIRM separately, (3) universe-composition differences (n_stocks per month), (4) missingness clustering by time, industry, or size where observable. No treatment receives an automatic default. Decision to be registered before Phase 2 with explicit rationale in `RESEARCH_LOG.md`.
 
 **CLMX FIRM variance vs. Factor-model residual variance:** These are distinct measures. CLMX FIRM variance removes market and industry components only — it is not factor-controlled. It will be elevated relative to the FF6-residual variance computed in Phase 5 (Layer 5), which also removes size, value, profitability, investment, and momentum exposures. Code and documentation maintain this distinction explicitly: `FIRM` for the CLMX component, `residual_variance` / `specific_variance_share` for the FF6 residual.
 

@@ -115,4 +115,35 @@ Literature reconnaissance for Phase 0 was supported by AI-assisted search. All m
 
 ---
 
+## 2026-08-25 — WP-05 Validated / Live Execution Handoff Issued / Repository Hardening
+
+**Status at entry:** Phase 1 active. WP-05 synthetic validation complete. Live data execution not yet run. No empirical results exist.
+
+### WP-05 Synthetic Validation Complete
+
+**24/24 synthetic tests PASS.** The CLMX three-component variance decomposition engine (MKT, IND, FIRM) has been validated against 24 analytically derived known-answer cases, spanning: single-stock / multi-stock scenarios; VW and EW weighting; MKT-only, IND-only, and FIRM-only variance allocations; multi-industry and multi-stock-per-industry cases; decomposition identity (MKT + IND + FIRM ≈ total) to floating-point tolerance; and non-negativity of all components. Validation implemented in `diagnostics/wp05_synthetic_validation.py` (standalone, no pytest dependency). This validates the mathematical implementation; it does not constitute empirical evidence about H1.
+
+### Work Products Committed
+
+- `diagnostics/wp05_live_diagnostic.py` — Standalone script for local live-data Sprint B evidence. Requires local network access to Yahoo Finance, SEC EDGAR, and Kenneth French Data Library. Produces four diagnostic charts and a text report. Run locally before notebook execution.
+- `docs/live_data_execution_handoff.md` — Complete local execution guide. Documents D-018 and D-020 decision capture points, execution order, and what to record after the run.
+
+### Option A Structural Characterization (registered)
+
+The valid-day inclusion treatment (Option A) uses `pandas R.mul(W).sum(axis=1, skipna=True)`. This is algebraically equivalent to treating each absent stock's return as 0.0 on its missing days while retaining all original weights. The effective contributing weight sum on a missing-data day equals 1 minus the sum of the absent stocks' weights — strictly less than 1. This is NOT implicit renormalization: explicit renormalization would rescale the remaining weights to sum to 1, producing a higher mu_d (when the market is positive) than what skipna returns. Under Option A, mu_d is pulled toward zero relative to renormalization. The direction of any resulting MKT bias is asymmetric and month-specific, depending on the sign of mu_d on missing-data days. This is the structural definition of Option A, not a bug. Documented in notebook Cells 28 and 42 and in the diagnostic script docstring.
+
+### Notebook Governance Updates (Cell 30)
+
+The D-018 overlay comparison in notebook Cell 30 previously contained threshold guidance ("< 2% median relative diff → prefer Option B") that implied an empirical shortcut to D-018 adjudication. This guidance has been replaced with a four-dimension adjudication framework requiring: (1) methodological defensibility, (2) empirical sensitivity across MKT, IND, and FIRM separately, (3) universe-composition analysis, and (4) missingness clustering assessment. No treatment has an automatic default. D-018 remains OPEN; resolution requires the live empirical overlay from notebook Step 8.
+
+### D-018 Governance Language Corrected
+
+`docs/methodology.md` previously described Option B as "preferred" under the D-018 entry. This language has been removed. No treatment is preferred in advance of the live-data adjudication. The D-018 entry now states the four-dimension framework and the requirement for explicit rationale in `RESEARCH_LOG.md` at time of resolution.
+
+### Next Question
+
+Run `notebooks/02_historical_replication.ipynb` locally against live Yahoo Finance / EDGAR / French Library data. Execute Steps 1–12 in order. At Step 2: record coverage diagnostic evidence for D-020. At Step 8: adjudicate D-018 across the four dimensions. Record results in `RESEARCH_LOG.md` per handoff document. WP-05 Phase 1 live pass pending.
+
+---
+
 *Results will be appended as phases complete.*

@@ -20,11 +20,12 @@
 | Field | Value |
 |---|---|
 | Primary source | Yahoo Finance / yfinance |
-| Return type | To be specified (total return vs. price return) |
+| Return type | Adjusted close price return (dividend and split-adjusted via yfinance) |
 | Return frequency | Open decision — to be registered before Phase 2 |
-| Historical start | Open decision — to be registered before Phase 2 |
-| Adjustment method | To be documented in Phase 1 |
-| Corporate action handling | To be documented in Phase 1 |
+| Historical start | Open decision — to be registered before Phase 2 (provisional: 2010-01-01, D-020) |
+| Adjustment method | Adjusted close price; no additional dividend handling applied |
+| Corporate action handling | To be documented in Phase 1; ticker changes and spin-offs flagged |
+| VW weight construction | Prior-month-end market-cap weights (price × shares outstanding); held fixed for calendar month (D-019 accepted) |
 
 ---
 
@@ -44,9 +45,11 @@
 
 | Field | Value |
 |---|---|
-| Classification system | To be documented in Phase 1 |
-| Classification source | To be documented in Phase 1 |
-| Historical classification handling | To be documented in Phase 1 |
+| Classification system | Fama-French 49 industries (FF49; not 48 — confirmed in CLMX 2001 paper text) |
+| SIC code source | SEC EDGAR public API (historical SIC codes per company) |
+| SIC → FF49 crosswalk | Kenneth French Data Library, Siccodes49.zip |
+| Crosswalk retrieval | Date recorded in `SIC_SNAPSHOT_META['retrieval_date']` in notebook Step 3 |
+| Modern SIC handling | Modern S&P 500 companies sometimes file under legacy SIC codes; mismatches flagged |
 | Reclassification monitoring | Required — tracked in validation pipeline |
 
 ---
