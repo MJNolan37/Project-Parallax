@@ -6,6 +6,54 @@ A change is "material" if it affects hypotheses, operationalizations, universe, 
 
 ---
 
+## [0.2.0] — 2026-09-12
+
+### Phase 1 Hardening — Implementation Corrections, Governance, and Public Release
+
+This release closes Phase 1 by repairing a latent implementation defect, adding a regression test, auditing the fill-method policy, updating dependencies, disambiguating empirical statistics, correcting survivorship language, and updating all public-facing documentation to reflect Phase 1 completion state.
+
+### Fixed
+
+- **Option A latent FIRM understatement defect** (`diagnostics/wp05_live_diagnostic.py`): The CLMX eps computation used `R[ticker] - r_j`, where `R[ticker]` is NaN for a stock missing on a given day. Because `(NaN**2).sum()` silently skips NaN terms, FIRM was understated by `Σ W_j × w_ij × (r_j,d)²` for each positive-weight ticker missing on day d. Fix: added `R_filled = R.fillna(0.0)` after weight normalization and used it consistently for mu_d, r_j, and eps. Under Option B (canonical for Phase 1), R has no NaN values, so this defect had zero impact on any Phase 1 empirical result. Under Option A, all 45 A-exclusive ticker-months had zero prior-month-end weight, making the defect numerically inert even for that path. Fix applied for correctness and forward safety.
+
+- **Same Option A eps defect repaired** (`notebooks/02_historical_replication.ipynb`, cells `cell-step8-d018-fn` and `cell-step12-functions`): Both inline `decompose_month()` and `clmx_decompose_month()` functions updated with the `R_filled = R.fillna(0.0)` fix. Docstrings updated to document the fix rationale and reference `tests/test_clmx.py`.
+
+- **pct_change fill policy** (`notebooks/02_historical_replication.ipynb`, cell `cell-step3-prices`): Changed `prices.pct_change()` to `prices.pct_change(fill_method=None)` to prevent implicit forward-filling of prices. Already applied in `wp05_live_diagnostic.py` (line 597) and `wp05_daily_weight_audit.py` (line 222) in prior sessions.
+
+### Added
+
+- **`tests/test_clmx.py`** — Standalone regression test suite for the Option A FIRM understatement defect. Eight test cases using a synthetic 2-stock / 2-day scenario with analytically derived expected values:
+  - Defective FIRM = 0.00013440
+  - Correct FIRM = 0.00019200
+  - Gap = −5.76×10⁻⁵ = W_j × w_B × (r_j,d2)²
+  - Option B invariance: both implementations agree when R has no NaN
+  - MKT identity: mu_d identical under both paths for this case
+  - No imports from the diagnostic module (avoids yfinance/matplotlib import chain)
+
+  These tests document the defect and guard against reintroduction. They do not constitute evidence about H1.
+
+### Changed
+
+- **`requirements.txt`** — Added `lxml>=4.9.0` (required for Wikipedia HTML parsing of S&P 500 constituent table) and `pyarrow>=12.0.0` (required for `.parquet` cache read/write). Both discovered during Phase 1 live execution.
+
+- **`RESEARCH_LOG.md`** — Full Phase 1 live execution history appended: D-018 and D-020 resolution, q_t audit results, Option A defect discovery and repair, pct_change audit, endpoint note (2024-12-30 vs 2024-12-31), FF49 parser repair, Wikipedia User-Agent fix, dependency discoveries, and G-Zephy Phase 1 Hardening scope.
+
+- **`README.md`** — Status updated from "In progress" to Phase 1 complete. D-018 (Option B) and D-020 (2010–2024) shown as resolved. Empirical statistics added with explicit disambiguation (ratio of sums vs. mean of monthly ratios). Survivorship limitation stated explicitly with no directional claim on bias direction or magnitude. Roadmap Phase 1 row updated to complete.
+
+- **FIRM share statistics disambiguated** throughout repository: the two statistics are distinct and must not be conflated:
+  - **39.9490%** — FIRM / (MKT + IND + FIRM) as a ratio of the summed monthly components across all 180 months (ratio of total-period sums). Appropriate for total-period aggregate composition.
+  - **46.3215%** — Arithmetic mean of the monthly FIRM / (MKT + IND + FIRM) ratio, computed month-by-month then averaged (mean of monthly ratios). Higher than the ratio-of-sums because months with low total variance carry disproportionately high FIRM share.
+
+- **Survivorship language** — Removed all directional claims about survivorship bias effect on FIRM share. The direction and magnitude of the bias have not been empirically established for this dataset. The current-constituent limitation is stated as a documented constraint, not as evidence of any particular directional effect.
+
+### Research State
+
+- **D-018 RESOLVED:** Option B (`complete_month`) is canonical for Phase 1.
+- **D-020 RESOLVED:** 2010–2024 (180 months). Extended window 2005–2009 failed the ≥85% coverage gate.
+- **Phase 1 complete.** WP-05 historical replication executed, D-018 and D-020 resolved, implementation hardened, public repository updated. No hypothesis testing has occurred. Phase 2 has not been authorized.
+
+---
+
 ## [0.1.0] — 2026-08-18
 
 ### Added
