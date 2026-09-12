@@ -4,7 +4,7 @@
 
 ---
 
-> **Status: Phase 0–1 | In Progress | Results not yet known**
+> **Status: Phase 1 Complete | Phase 2 Pending Gates | No Hypothesis Testing Has Occurred**
 
 ---
 
@@ -12,9 +12,21 @@
 
 Phase 0 literature reconnaissance is complete. The literature establishes that the secular rise in idiosyncratic volatility documented by Campbell, Lettau, Malkiel & Xu (2001) over 1962–1997 did not persist cleanly after approximately 2001 (CLMX 2022; Chiah, Gharghori & Zhong 2020). H1 therefore remains a genuinely open question — it is not an assumed finding.
 
-Phase 1 data feasibility is active. The CLMX three-component variance decomposition engine (MKT/IND/FIRM) has been implemented in `notebooks/02_historical_replication.ipynb` and validated on synthetic data with known analytical solutions (24/24 PASS, WP-05 synthetic validation). No hypothesis testing has occurred. The next step is live historical execution of the decomposition notebook across the 2010–2024 study window, which requires local network access for data retrieval from Yahoo Finance, SEC EDGAR, and the Kenneth French Data Library. See [`docs/live_data_execution_handoff.md`](docs/live_data_execution_handoff.md) for setup and execution instructions.
+Phase 1 data feasibility is complete. The CLMX three-component variance decomposition (MKT/IND/FIRM) has been implemented, validated on 24 synthetic known-answer cases (24/24 PASS), and executed on live historical data across all 180 months of the 2010–2024 primary study window (D-020 resolved). The two open methodological decisions have been resolved:
 
-No empirical results exist yet. The research question remains open in both directions.
+- **D-018 RESOLVED — Option B (complete\_month):** A stock-month is eligible only when the stock has return observations on every cached trading day for that month. This is the canonical treatment for Phase 1. The q_t audit confirmed that Option A and Option B produce numerically identical component totals (delta < 1e-15) across all 180 months for this dataset, validating the selection without a numerical tradeoff.
+- **D-020 RESOLVED — 2010–2024 (180 months):** The extended window 2005–2009 was evaluated and failed the ≥85% coverage gate. The primary 2010–2024 window is canonical.
+
+**Phase 1 replication statistics (WP-05, Option B, 2010–2024 — replication validation, not H1 evidence):**
+
+The CLMX decomposition produces two distinct FIRM variance share statistics that must not be conflated:
+
+- **39.95%** — FIRM as a share of total variance, computed as a ratio of the summed monthly components across all 180 months (ratio of total-period sums).
+- **46.32%** — FIRM as a share of total variance, computed as the arithmetic mean of the monthly FIRM/(MKT+IND+FIRM) ratios across all 180 months (mean of monthly ratios). Higher than the ratio-of-sums because months with low total variance carry disproportionately high FIRM share.
+
+**Survivorship limitation:** The ticker universe is derived from current S&P 500 constituent membership projected backward. Securities that entered and exited the index during 2010–2024 without surviving to the current list are excluded. The direction and magnitude of the resulting survivorship bias on FIRM variance share have not been empirically established for this dataset. No directional claim is made.
+
+These statistics are presented as replication validation output. Phase 2 hypothesis testing has not been authorized and has not begun. The research question remains open in both directions.
 
 ---
 
@@ -138,7 +150,7 @@ If the free dataset materially distorts inference, the project will document the
 | Phase | Question | Output | Status |
 |---|---|---|---|
 | 0 | What is already known? | Literature review | ✅ Complete |
-| 1 | Can the data answer the question? | Bias & feasibility report | 🔄 In progress (WP-05: historical replication) |
+| 1 | Can the data answer the question? | Bias & feasibility report | ✅ Complete (WP-05: D-018/D-020 resolved, implementation hardened) |
 | 2 | Does the phenomenon exist? | Dispersion / correlation analysis | ⏳ Pending gates |
 | 3 | Does the attribution engine behave correctly? | Brinson engine + known-answer tests | ⏳ Pending gates |
 | 4 | What do systematic factors explain? | Factor attribution engine | ⏳ Pending gates |
