@@ -45,6 +45,7 @@ Commit HEAD at script authorship: 1a0bfd3 (v0.1.4)
 from __future__ import annotations
 
 import io
+import re
 import time
 import warnings
 import zipfile
@@ -108,7 +109,7 @@ def hr() -> None:
     log('─' * 70)
 
 def save_report() -> None:
-    REPORT_PATH.write_text('\n'.join(_report_lines))
+    REPORT_PATH.write_text('\n'.join(_report_lines), encoding='utf-8')
     print(f'\nReport written to {REPORT_PATH}')
 
 
@@ -130,15 +131,20 @@ def fetch_ff49_crosswalk() -> pd.DataFrame:
     with zipfile.ZipFile(io.BytesIO(resp.content)) as zf:
         raw = zf.read(zf.namelist()[0]).decode('latin-1')
 
+    # French Data Library format changed: SIC ranges are now "NNNN-NNNN description"
+    # (dash-separated with trailing description) rather than bare "NNNN NNNN".
+    # Regex handles both the current format and the legacy two-token format.
+    _sic_range = re.compile(r'^\s*(\d{4})-(\d{4})')
     rows, cur_num, cur_name = [], None, None
     for line in raw.splitlines():
         parts = line.split()
         if (len(parts) >= 2 and parts[0].isdigit()
                 and parts[1].isalpha() and len(parts[0]) <= 2):
             cur_num, cur_name = int(parts[0]), parts[1]
-        elif len(parts) == 2 and all(p.isdigit() for p in parts):
-            if cur_num is not None:
-                rows.append({'sic_lo': int(parts[0]), 'sic_hi': int(parts[1]),
+        else:
+            m = _sic_range.match(line)
+            if m and cur_num is not None:
+                rows.append({'sic_lo': int(m.group(1)), 'sic_hi': int(m.group(2)),
                              'industry_num': cur_num, 'industry_name': cur_name})
 
     ff49 = pd.DataFrame(rows)
@@ -154,7 +160,14 @@ def fetch_ff49_crosswalk() -> pd.DataFrame:
 def fetch_sp500_tickers() -> list[str]:
     import requests
     log('  Fetching current S&P 500 constituents from Wikipedia...')
-    tables = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    # pd.read_html uses urllib which Wikipedia blocks with 403; fetch via requests first.
+    resp = requests.get(
+        'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies',
+        headers={'User-Agent': 'Mozilla/5.0 (compatible; ProjectParallax/1.0; research)'},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    tables = pd.read_html(io.StringIO(resp.text))
     tickers = tables[0]['Symbol'].str.replace('.', '-', regex=False).tolist()
     log(f'  {len(tickers)} tickers retrieved (as of {datetime.date.today()})')
     return tickers
@@ -369,6 +382,15 @@ def decompose_month_clmx(
         up or down depends on the sign of the market return on those days; the
         effect is asymmetric and month-specific.  This is the structural
         definition of Option A, not a bug.
+
+        For FIRM variance consistency under Option A, missing-stock returns are
+        also treated as zero in the eps (residual) computation via R_filled below.
+        Without this, eps would be NaN for missing stocks on missing days, and
+        (eps**2).sum() would skip those terms, understating FIRM by exactly
+        sum_j W_j * w_ij * (r_jd)^2 for each positive-weight missing stock on
+        each missing day.  R_filled = R.fillna(0.0) makes mu_d and eps
+        consistently zero-imputed.  This is a code correction to enforce the
+        documented Option A structural interpretation.
     """
     mask = (daily_returns.index.year == year) & (daily_returns.index.month == month)
     R_all = daily_returns[mask]
@@ -392,10 +414,14 @@ def decompose_month_clmx(
         return None
     W = W / total_w
 
+    # Under Option A, fill NaN returns with 0.0 for consistent zero-imputation
+    # across mu_d, r_j, and eps.  Under Option B, R has no NaN so R_filled == R.
+    R_filled = R.fillna(0.0)
+
     # Daily VW market return: mu_d
-    # Under Option B: no NaNs, so this is exact.
-    # Under Option A: NaN tickers are treated as zero-return on missing days (see docstring).
-    mu_d = R.mul(W, axis=1).sum(axis=1)
+    # Under Option B: no NaNs; R_filled == R.
+    # Under Option A: NaN tickers are zero-imputed via R_filled (see docstring).
+    mu_d = R_filled.mul(W, axis=1).sum(axis=1)
     MKT  = float((mu_d ** 2).sum())
     IND  = 0.0
     FIRM = 0.0
@@ -412,11 +438,11 @@ def decompose_month_clmx(
         if W_j == 0:
             continue
         w_ij = W[members] / W_j
-        r_j  = R[members].mul(w_ij, axis=1).sum(axis=1)
+        r_j  = R_filled[members].mul(w_ij, axis=1).sum(axis=1)
         eta  = r_j - mu_d
         IND  += W_j * float((eta ** 2).sum())
         for ticker in members:
-            eps   = R[ticker] - r_j
+            eps   = R_filled[ticker] - r_j
             FIRM += W_j * float(w_ij[ticker]) * float((eps ** 2).sum())
         industries_seen.add(ind_num)
 
@@ -472,7 +498,7 @@ def run_full_period(
 # ===========================================================================
 
 def annual_summary(monthly: pd.DataFrame) -> pd.DataFrame:
-    annual = monthly[['MKT', 'IND', 'FIRM']].resample('YE').sum()
+    annual = monthly[['MKT', 'IND', 'FIRM']].resample('A').sum()
     annual.index = annual.index.year
     annual['total']      = annual.sum(axis=1)
     annual['MKT_share']  = annual['MKT']  / annual['total']
@@ -568,7 +594,7 @@ def main() -> None:
 
     classified = list(ticker_industry.index)
     available  = [t for t in classified if t in prices.columns]
-    daily_returns = prices[available].pct_change().iloc[1:]
+    daily_returns = prices[available].pct_change(fill_method=None).iloc[1:]
     # Restrict to primary window for main analysis
     dr_primary = daily_returns.loc[STUDY_START_PRIMARY:STUDY_END]
     dr_extended = daily_returns.loc[STUDY_START_EXTENDED:STUDY_END]
