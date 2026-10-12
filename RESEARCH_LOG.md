@@ -227,3 +227,44 @@ All canonical return-construction paths now use `pct_change(fill_method=None)` t
 ### G-Zephy Phase 1 Hardening Assignment
 
 Following Phase 1 live execution and D-018/D-020 resolution, a comprehensive Phase 1 Hardening pass was conducted to bring the public repository into alignment with completed Phase 1 state. The hardening covered: Option A defect repair and regression test, pct_change audit, dependency updates (lxml, pyarrow), FIRM share disambiguation, survivorship language correction, README status update, endpoint documentation, and 4-commit public release sequence. See CHANGELOG v0.2.0 for the complete change record.
+
+---
+
+## 2026-10-11 — Phase 2.1 Disclosure Snapshot Prepared (Not Yet Approved)
+
+**Status at entry:** Phase 2.1 specification frozen. Implementation validated against synthetic and known-answer tests only. **No empirical H1/H2 analysis has been conducted.** The empirical execution gate remains closed.
+
+### Evidence
+
+- **Phase 2 work recovered.** It had existed only as uncommitted files in an AI build workspace and was never committed to Git. Recovery: 91 files, every one an addition relative to `bc05c48`. Checksums were verified on the project owner's machine.
+- **Test results** (details and environments in `docs/VALIDATION.md`):
+  - Preparation run: hac 34/34, h2 70/70, integration 82/82, bootstrap 33/33, bai_perron 23 passed with 8 R-dependent checks skipped.
+  - Windows review of the restored package (Python 3.12.14, NumPy 2.5.4, SciPy 1.17.1, pandas 3.0.1, pytest 9.1.1): the same five suites at 242 passed, plus the transform suite at 21 passed, for 263 passed and 0 failed. Reported by the orchestrating reviewer.
+  - The H1 HAC R-reference gate runs but skips. That is not a pass.
+- **Governing specification.** The v1.0 preregistration DOCX governs, and its text states a freeze of 23 September 2026. The Markdown copy in `docs/` is a verified format conversion.
+- **Input-checksum enforcement is incomplete.** The aggregate input checksum is blank (the provenance check halts), FF49 crosswalk checking is not wired, and FF12 inputs have no checksum field.
+
+### H1 critical value (A1)
+
+Unresolved; see `docs/A1_STATUS.md`.
+
+- The M = 5 benchmark is reported as Monte Carlo interval containment (8.8696396; 95% interval [8.8322432, 8.9089821]). No acceptance rule is frozen.
+- The separate-grid M = 2 estimates are noncanonical.
+- A prior-session report, not verified here, states that an independent methods review on 2026-10-05 concluded that further methods work is required. The exact response has not been recovered and is not ratified. No technique or requirement is treated as formally accepted on its basis.
+- No defensible continuous-limit stopping rule exists yet.
+
+### Decisions (project owner)
+
+- **Scope.** Track 1 is a code-and-specification disclosure, not the Phase 2.1 release. A1 is resolved separately, on Track 2.
+- **Persona labels.** Comment-sanitized derivatives are published for five sources that carried private assistant labels. The originals are preserved in the archive.
+- **Deferred.** Designating the authoritative Addendum A1 text; recovering and ratifying the 2026-10-05 methods review response.
+
+### Open items carried forward
+
+- **Release blocker: H2 sector-month validity.** The `run_h2` contract in `h2_system.py` calls a stock-level ">= 10 valid daily return days" filter "Option B". Phase 1 Option B (`complete_month`) requires a valid return on every trading day; the ten-day threshold applies to the month's trading-day count. The sector CLMX pipeline does not yet exist, so no code applies either reading. The project owner must ratify the §6 reading and correct the contract before any sector pipeline is built. See `docs/VALIDATION.md` §3.
+- The pre-freeze READY / CLARIFICATIONS / BLOCKER implementation audit record is missing.
+- Input checksums, the dependency lock and the R-reference constants must all be resolved before the empirical gate can open. The transform suite has now been executed in the local review (21 passed).
+
+### Note on AI assistance
+
+The Phase 2 code, the A1 simulator, and this entry's supporting documents were drafted by AI build assistants under the project owner's direction. Independent reproduction has not been performed.

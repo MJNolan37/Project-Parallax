@@ -28,3 +28,11 @@ lxml>=4.9.0
 
 # Parquet I/O (required by pd.read_parquet / to_parquet — used for price cache)
 pyarrow>=12.0.0
+
+# Phase 2.1
+# TOML parsing for diagnostics/phase2_provenance_check.py on Python < 3.11
+tomli>=2.0; python_version < "3.11"
+# Optional, test-only (not installed by default):
+#   pytest      — tests/test_phase2_transform.py
+#   rpy2 + R    — R-reference checks in tests/test_phase2_bai_perron.py and tests/test_phase2_hac_rpy2.py
+#                 (R package: strucchange >= 1.5-3; rpy2 >= 3.5 per config/phase2_spec.toml)

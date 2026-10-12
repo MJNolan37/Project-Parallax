@@ -1,7 +1,7 @@
 # Project Parallax
 **Equity Dispersion, Attribution, and Return Structure**
 
-> **Status: Phase 1 Complete | Phase 2 Pending Gates | No Hypothesis Testing Has Occurred**
+> **Status: Phase 1 Complete | Phase 2.1 Specification and Implementation Disclosed (Synthetic Validation Only) | No Hypothesis Testing Has Occurred**
 
 ---
 
@@ -50,6 +50,19 @@ Two open methodological decisions were resolved before results were examined. Op
 
 ---
 
+## Phase 2.1: Disclosure Snapshot (Specification and Implementation)
+
+This snapshot publishes the frozen Phase 2 preregistration and the Phase 2.1 implementation. It is a code-and-specification disclosure. It is not the Phase 2.1 release described in the preregistration, and it does not open the empirical execution gate.
+
+- **Specification:** `docs/phase2_preregistration_v1.0.md`, a verified format conversion of the governing v1.0 DOCX. The document states a specification freeze of 23 September 2026. The commit date here records only when the specification became public; the dated freeze history is kept in the project's decision record.
+- **Implementation:** `src/phase2/`, `tests/test_phase2_*.py`, `config/phase2_spec.toml`.
+- **Validation:** validated against synthetic and known-answer tests. In the latest local review, 263 checks pass across six suites (including the transform suite), with 8 R-dependent checks skipped. The H1 HAC R-reference gate has not passed: it runs but skips. Details, environments and exclusions are in `docs/VALIDATION.md`.
+- **No empirical H1/H2 analysis has been conducted.** Input checksums are not yet committed, and the H1 critical value is unresolved.
+- **Open release blocker (H2):** the sector-month validity contract in `src/phase2/h2_system.py` does not match the preregistration's Phase 1 Option B (`complete_month`) treatment. It must be resolved before any sector data pipeline is built. See `docs/VALIDATION.md` §3.
+- **H1 critical value (A1):** unresolved. Experimental calibration code is in `calibration/`; nothing there is frozen or canonical. See `docs/A1_STATUS.md`.
+
+---
+
 ## Why Parallax / Research Architecture
 
 Parallax is the apparent shift of an object when viewed from different positions. That shift is not noise; it is information about structure.
@@ -63,7 +76,9 @@ The research questions form a conceptual ladder:
 3. **H3 (Systematic explanation):** If something changed, can changing systematic factor exposures account for it?
 4. **H4 (Residual persistence):** After systematic explanations, does meaningful firm-specific variation remain?
 
-None of these has been tested. Phase 2 has not been authorized. H1 uses "differs materially" rather than "increased" because the direction is not assumed. A result consistent with no structural change is a valid and successful outcome of this project.
+*This ladder is the project's original conceptual framing. The current Phase 2 hypotheses and their definitions are those in `docs/phase2_preregistration_v1.0.md`; where they differ, the preregistration governs.*
+
+None of these has been tested. Phase 2 empirical testing has not been authorized; only implementation validation on synthetic and known-answer data is authorized under the frozen Phase 2.1 specification. H1 uses "differs materially" rather than "increased" because the direction is not assumed. A result consistent with no structural change is a valid and successful outcome of this project.
 
 Four competing explanations are maintained throughout:
 
@@ -109,6 +124,8 @@ A catalogue of issues encountered in Phase 1 that do not appear in the original 
 ---
 
 ## Roadmap
+
+*Original conceptual roadmap. Phase numbering here predates the Phase 2 preregistration; for the current Phase 2 scope, see `docs/phase2_preregistration_v1.0.md`.*
 
 | Phase | Question | Output | Status |
 |---|---|---|---|
