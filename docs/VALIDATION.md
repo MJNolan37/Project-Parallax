@@ -110,12 +110,18 @@ These must be resolved before the empirical execution gate can open (preregistra
 ## 3. Other open validation items
 
 - **No dependency lock.** No lockfile exists; `config/phase2_spec.toml` refers to `requirements-phase2-lock.txt`, which is not present.
-- **H2 eligibility wording (watchpoint, unresolved).**
-  - Preregistration §2 fixes Phase 1 "Option B complete_month" missing-data treatment.
-  - §6 specifies sector CLMX "using Phase 1 Option B and at least ten valid daily return days".
-  - `src/phase2/h2_system.py` (line 386) documents ">= 10 valid daily return days".
-
-  The code matches the ten-day phrase, but that does not resolve how §6 relates to `complete_month`. This needs adjudication. It has not been changed here.
+- **H2 sector-month validity: nonconforming contract (release blocker).** Code inspection only; no data was read.
+  - **Governing text.**
+    - §2 fixes Phase 1 "Option B complete_month" missing-data treatment (D-018).
+    - §6 recomputes sector CLMX "using Phase 1 Option B and at least ten valid daily return days".
+  - **Phase 1 Option B as implemented** (`diagnostics/wp05_live_diagnostic.py`, `decompose_month_clmx`, lines 398–404):
+    - a month is used only if it has at least `MIN_VALID_DAYS = 10` trading days (D-017);
+    - a stock is included only if it has a valid return on **every** trading day of that month.
+    - Ten or more valid days per stock is the separate Option A (`valid_days`) rule.
+  - **Phase 2 contract** (`src/phase2/h2_system.py`, `run_h2` docstring, lines 384–388) says a sector-month is valid when the sector has at least 5 stocks and "each of those stocks has >= 10 valid daily return days in month t". It calls this "the Option B data-quality filter". As a stock-level rule, that is Phase 1 Option A, not Option B `complete_month`: it would admit stocks that are missing on some trading days.
+  - **What conforms.** `run_h2` applies the §6 segment-eligibility rule correctly: a sector qualifies only if it has at least one valid month in every H1 segment, and if G′ < 6 the test is not computed. It does not filter stocks itself; it trusts the `valid_mask` passed in.
+  - **What is missing.** The upstream pipeline that recomputes sector CLMX and builds `valid_mask` does not exist in this snapshot. No code yet applies either reading. The synthetic suites supply `valid_mask` directly, so the 263 passing checks do not test this rule.
+  - **Status.** This is a **blocker for the Phase 2.1 release and the empirical execution gate**. Before any sector pipeline is built, the project owner must ratify the §6 reading and correct the contract to match it. The reading most consistent with §2 and the Phase 1 code is: Option B stocks, in months with at least ten trading days. That reading is an inference, not an adjudication. Neither the preregistration nor the code has been changed here.
 - **Pre-freeze implementation audit missing.** The pre-freeze READY / CLARIFICATIONS / BLOCKER implementation audit record has not been located.
 - **The A1 critical value is unresolved.** See `docs/A1_STATUS.md`. The H1 decision rule cannot be executed until it is resolved.
 

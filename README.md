@@ -58,6 +58,7 @@ This snapshot publishes the frozen Phase 2 preregistration and the Phase 2.1 imp
 - **Implementation:** `src/phase2/`, `tests/test_phase2_*.py`, `config/phase2_spec.toml`.
 - **Validation:** validated against synthetic and known-answer tests. In the latest local review, 263 checks pass across six suites (including the transform suite), with 8 R-dependent checks skipped. The H1 HAC R-reference gate has not passed: it runs but skips. Details, environments and exclusions are in `docs/VALIDATION.md`.
 - **No empirical H1/H2 analysis has been conducted.** Input checksums are not yet committed, and the H1 critical value is unresolved.
+- **Open release blocker (H2):** the sector-month validity contract in `src/phase2/h2_system.py` does not match the preregistration's Phase 1 Option B (`complete_month`) treatment. It must be resolved before any sector data pipeline is built. See `docs/VALIDATION.md` §3.
 - **H1 critical value (A1):** unresolved. Experimental calibration code is in `calibration/`; nothing there is frozen or canonical. See `docs/A1_STATUS.md`.
 
 ---

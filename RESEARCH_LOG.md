@@ -261,7 +261,7 @@ Unresolved; see `docs/A1_STATUS.md`.
 
 ### Open items carried forward
 
-- H2 eligibility wording: Option B `complete_month` (§2) vs "at least ten valid daily return days" (§6 and `h2_system.py`). Unresolved.
+- **Release blocker: H2 sector-month validity.** The `run_h2` contract in `h2_system.py` calls a stock-level ">= 10 valid daily return days" filter "Option B". Phase 1 Option B (`complete_month`) requires a valid return on every trading day; the ten-day threshold applies to the month's trading-day count. The sector CLMX pipeline does not yet exist, so no code applies either reading. The project owner must ratify the §6 reading and correct the contract before any sector pipeline is built. See `docs/VALIDATION.md` §3.
 - The pre-freeze READY / CLARIFICATIONS / BLOCKER implementation audit record is missing.
 - Input checksums, the dependency lock and the R-reference constants must all be resolved before the empirical gate can open. The transform suite has now been executed in the local review (21 passed).
 

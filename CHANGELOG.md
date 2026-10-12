@@ -31,7 +31,8 @@ Publishes the frozen Phase 2 preregistration and the Phase 2.1 implementation as
 ### Notes
 
 - Five sources are published as comment-sanitized derivatives, with private assistant labels removed from comments, docstrings and one printed banner. Original and shipped hashes, and equivalence checks, are in `docs/VALIDATION.md` §4. The originals are preserved in the project archive.
-- Open watchpoints: H2 eligibility wording (`complete_month` vs the ten-valid-day rule); the missing pre-freeze implementation audit record; Addendum A1 text not designated.
+- Release blocker: the H2 sector-month validity contract in `src/phase2/h2_system.py` describes a stock-level ten-valid-day rule as Option B, which does not match Phase 1 Option B `complete_month` (see `docs/VALIDATION.md` §3). Not changed here; needs ratification.
+- Open items: the missing pre-freeze implementation audit record; Addendum A1 text not designated.
 
 ---
 
