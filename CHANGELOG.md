@@ -6,6 +6,35 @@ A change is "material" if it affects hypotheses, operationalizations, universe, 
 
 ---
 
+## [Unreleased] — Phase 2.1 disclosure snapshot (prepared 2026-10-11; not yet approved)
+
+### Phase 2.1 specification and implementation disclosure
+
+Publishes the frozen Phase 2 preregistration and the Phase 2.1 implementation as a code-and-specification disclosure. This is not the Phase 2.1 release defined in the preregistration (§11). The empirical execution gate remains closed, and no empirical H1/H2 analysis has been conducted.
+
+### Added
+
+- `docs/phase2_preregistration_v1.0.md` — format conversion of the governing v1.0 DOCX (SHA-256 `12699fd7c0f0793602ef5620628d61b45140582fb82781b5f92149ce1a410ba7`). Text verified identical, paragraph by paragraph. The DOCX governs.
+- `src/phase2/` — Phase 2.1 implementation: H1 transform, Bai–Perron, bootstrap and HAC; H2 system; robustness; reporting.
+- `tests/test_phase2_*.py` — seven synthetic and known-answer suites. In the latest local review, six executed with 263 checks passing and 0 failing (8 R-dependent Bai–Perron checks skipped). The HAC R-reference gate runs but skips (needs R and filled reference constants); that is not a pass.
+- `config/phase2_spec.toml` — analytic constants and gates. Input checksums are blank (disclosed in `docs/VALIDATION.md`).
+- `diagnostics/phase2_provenance_check.py` — input provenance gate. Not executed.
+- `docs/VALIDATION.md` — test record, environment, exclusions, checksum-enforcement gaps, source hashes.
+- `docs/A1_STATUS.md` — H1 critical-value calibration status: unresolved; nothing frozen.
+- `calibration/` — experimental A1 calibration code and historical outputs, labelled per file in `calibration/SUPERSEDED.md`. `calibrate_udmax.py` is SUPERSEDED, the grid results are NONCANONICAL, and the benchmark is report-only.
+
+### Changed
+
+- `README.md` — status line, one sentence on Phase 2 authorization, a short Phase 2.1 disclosure section, and notes marking the hypothesis ladder and roadmap as the original conceptual framing (the preregistration governs current Phase 2 definitions).
+- `requirements.txt` — added `tomli` for Python < 3.11 (used by the provenance check), with comments on optional test dependencies.
+
+### Notes
+
+- Five sources are published as comment-sanitized derivatives, with private assistant labels removed from comments, docstrings and one printed banner. Original and shipped hashes, and equivalence checks, are in `docs/VALIDATION.md` §4. The originals are preserved in the project archive.
+- Open watchpoints: H2 eligibility wording (`complete_month` vs the ten-valid-day rule); the missing pre-freeze implementation audit record; Addendum A1 text not designated.
+
+---
+
 ## [0.2.0] — 2026-09-12
 
 ### Phase 1 Hardening — Implementation Corrections, Governance, and Public Release
