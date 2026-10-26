@@ -5,6 +5,16 @@
 
 ---
 
+## My decisions and what you can inspect
+
+I want to understand whether firm-specific return variation has changed, while keeping dispersion, attribution, and systematic explanations distinct. I first rebuilt the CLMX market/industry/firm decomposition on current S&P 500 members projected backward over 2010–2024. Public-data coverage and survivorship constrain the interpretation; the sample cannot represent the full historical equity universe.
+
+I chose a staged path: establish the measurement foundation before testing the hypotheses. The [research log](RESEARCH_LOG.md) records 24 known-answer validation cases, the rejection of 2005–2009 after coverage failed the 85% gate, and my selection of Option B (`complete_month`) as canonical. An audit found a latent missing-data defect in the alternate Option A path. It did not affect canonical results; the repair is protected by a [regression test](tests/test_clmx.py).
+
+The [Phase 1 notebook](notebooks/02_historical_replication.ipynb), decision log, [frozen Phase 2 preregistration](docs/phase2_preregistration_v1.0.md), and [validation report](docs/VALIDATION.md) are the inspectable outputs. The specification states a 23 September 2026 freeze; its later public commit is not independent proof of that earlier freeze date. AI assisted coding and audit; the research question, methodological decisions, and final judgments are mine.
+
+Whether the hypothesized structural changes exist remains open. Empirical H1/H2 testing has not occurred and remains gated by unresolved validation and implementation requirements.
+
 ## Research Question and Why Now
 
 Has the balance between market-, industry-, and firm-specific variation in U.S. equities changed materially since the original Campbell-Lettau-Malkiel-Xu research, and what might that imply for the importance of security selection today?
