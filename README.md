@@ -180,3 +180,7 @@ Live data results require a fresh yfinance download; the decomposition engine an
 ---
 
 [Project Charter](PROJECT_CHARTER.md) · [Research Log](RESEARCH_LOG.md) · [Bibliography](docs/bibliography.md) · [Methodology](docs/methodology.md) · [Live Data Execution](docs/live_data_execution_handoff.md)
+
+## License
+
+Original code and configuration are licensed under [MIT](LICENSE). Original research documentation, diagrams and notebook narrative are licensed under [CC BY 4.0](LICENSE-DOCS). See [licensing scope and third-party exclusions](LICENSING.md) for the treatment of notebooks and data.
